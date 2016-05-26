@@ -7,7 +7,7 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	EnableDebugPrivilege();
+	EnableDebugPrivilege(TRUE);
 
 	char *buffer = NULL;
 	unsigned int nResult = 0;
@@ -22,7 +22,21 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 
 	printf("%s", buffer);
+	free(buffer);
 
+	nResult = GetProcessInfo(NULL, 0);
+
+	if (nResult != 0)
+	{
+		buffer = (char*)malloc(nResult + 1);
+		memset(buffer, 0, nResult + 1);
+		GetProcessInfo(&buffer, nResult);
+	}
+
+	printf("%s", buffer);
+	free(buffer);
+
+	EnableDebugPrivilege(FALSE);
 	system("PAUSE");
 	return 0;
 }
